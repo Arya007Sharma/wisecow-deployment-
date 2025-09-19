@@ -1,5 +1,7 @@
 name: CI/CD Pipeline
 
+name: CI/CD Pipeline
+
 on:
   push:
     branches: ["main"]
@@ -17,7 +19,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          IMAGE_NAME=ghcr.io/${{ secrets.GHCR_USERNAME }}/wisecow:latest
+          USERNAME_LOWER=$(echo "${{ secrets.GHCR_USERNAME }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME=ghcr.io/$USERNAME_LOWER/wisecow:latest
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
@@ -32,6 +35,29 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/wisecow-deployment wisecow=ghcr.io/${{ secrets.GHCR_USERNAME }}/wisecow:latest
+          USERNAME_LOWER=$(echo "${{ secrets.GHCR_USERNAME }}" | tr '[:upper:]' '[:lower:]')
+          kubectl set image deployment/wisecow-deployment wisecow=ghcr.io/$USERNAME_LOWER/wisecow:latest
           kubectl rollout status deployment/wisecow-deployment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
