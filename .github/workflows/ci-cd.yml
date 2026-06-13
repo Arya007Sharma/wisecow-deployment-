@@ -1,3 +1,4 @@
+#pipeline setup
 name: CI/CD Pipeline
 
 on:
@@ -36,10 +37,6 @@ jobs:
           USERNAME_LOWER=$(echo "${{ secrets.GHCR_USERNAME }}" | tr '[:upper:]' '[:lower:]')
           kubectl set image deployment/wisecow-deployment wisecow=ghcr.io/$USERNAME_LOWER/wisecow:latest
           kubectl rollout status deployment/wisecow-deployment
-
-
-
-
 
 
 
